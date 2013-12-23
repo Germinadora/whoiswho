@@ -114,7 +114,8 @@ Template.graph.rendered = ->
   	.attr("class", "node")
   	.call(force.drag)
   	.on 'click', (d) ->
-  	  window.open('http://www.facebook.com/'+ d.facebook_id,'_blank');
+  	  if d.facebook_id?
+  	    window.open('http://www.facebook.com/'+ d.facebook_id,'_blank')
   	
   nodes.append("circle")
     .attr("r", (d) -> 10 + d.group*10)
