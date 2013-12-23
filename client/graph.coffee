@@ -16,14 +16,12 @@ Template.graph.rendered = ->
   data.links.push source: 0, target: 11, value: 20
   data.links.push source: 0, target: 12, value: 20
 
-  ###
   data.nodes.push _id: 1, name: 'Juan', facebook_id: 'jbernab', group: 1
   data.nodes.push _id: 2, name: 'Leo', facebook_id: 'leonardo.grijo', group: 1
   data.nodes.push _id: 13, name: 'Barbara', facebook_id: 'barbara.bernabo.7', group: 1
   data.links.push source: 1, target: 0, value: 10
   data.links.push source: 2, target: 0, value: 10
   data.links.push source: 13, target: 0, value: 10
-  ###
 
   data.nodes.push _id: 3, name: 'Eyso', facebook_id: 'appstoreoptimization', group: 2
   data.nodes.push _id: 4, name: 'Ludmilla', facebook_id: 'ludmilla.veloso', group: 1
@@ -110,6 +108,22 @@ Template.graph.rendered = ->
   nodes = graph.append("g").attr("id", "nodes").selectAll('.node')
   	.data(data.nodes, (d) -> d._id )
   	
+  graph.append("defs").selectAll("pattern")
+  	.data(data.nodes)
+  	.enter().append("pattern")
+  	  .attr('patternUnits', "userSpaceOnUse")
+  	  .attr("height", "100%")
+  	  .attr("width", "100%")
+  	  .attr("x", (d) -> -(10 + d.group*10))
+  	  .attr("y", (d) -> -(10 + d.group*10))
+  	  .attr("id", (d) -> "avatar_" + d._id)
+  	  .append("image")
+  	    .attr("x", 0)
+  	    .attr("y", 0)
+  	    .attr("height", (d) -> 20 + d.group*20)
+  	    .attr("width", (d) -> 20 + d.group*20)
+  	    .attr("xlink:href", (d) -> if d.facebook_id then "http://graph.facebook.com/#{d.facebook_id}/picture" else "")
+  
   nodes.enter().append('g')
   	.attr("class", "node")
   	.call(force.drag)
@@ -120,14 +134,8 @@ Template.graph.rendered = ->
   nodes.append("circle")
     .attr("r", (d) -> 10 + d.group*10)
     .attr("class", "node")
-    .style("fill", (d) -> color(d.group))
-    
-  nodes.append("image")
-    .attr("xlink:href", (d) -> if d.facebook_id then "http://graph.facebook.com/#{d.facebook_id}/picture" else "")
-    .attr("height", 24)
-    .attr("width", 24)
-    .attr("x", -12)
-    .attr("y", -12)
+    .style("fill", (d) -> if d.facebook_id then "url(#avatar_#{d._id})" else "#555")
+    .style("stroke", (d) -> color(d.group))
 
   nodes.append("text")
     .text( (d) -> d.name )
