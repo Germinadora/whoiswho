@@ -1,0 +1,20 @@
+/* CSS declarations go here */
+
+body {
+  background-color: #ccc;	
+}
+
+.node {
+  stroke: #fff;
+  stroke-width: 3.5px;
+}
+
+.node text {
+  stroke: #555;
+  stroke-width: 1px;
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}

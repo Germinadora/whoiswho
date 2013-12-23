@@ -1,0 +1,16 @@
+<head>
+  <title>whoiswho</title>
+</head>
+
+<body>
+  {{> graph}}
+</body>
+
+<template name="graph">
+  <div class="graph-wrapper">
+  {{#constant}}
+    <svg id='graph' width='100%' height='100%'>
+    </svg>
+  {{/constant}}
+  </div>
+</template>
